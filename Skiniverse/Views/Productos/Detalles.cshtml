@@ -1,0 +1,21 @@
+﻿@model Skiniverse.Models.Producto
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <img src="@Model.ImagenUrl" class="img-fluid rounded" alt="@Model.NombreProducto" style="max-height: 400px;" />
+        </div>
+        <div class="col-md-6">
+            <span class="badge bg-secondary mb-2">@Model.Categoria</span>
+            <h2>@Model.NombreProducto</h2>
+            <p class="text-muted"><strong>Para:</strong> @Model.TipoPielRecomendado</p>
+            <p class="text-muted"><strong>Activos:</strong> @Model.IngredientesActivos</p>
+            <h3 class="text-primary mb-4">$@Model.PrecioRegular.ToString("N0")</h3>
+
+            <button class="btn btn-success btn-lg me-2" onclick="agregarAlCarrito(@Model.IdProducto, '@Model.NombreProducto', @Model.PrecioRegular)">
+                🛒 Agregar al Carrito
+            </button>
+            <a asp-action="Catalogo" class="btn btn-outline-secondary btn-lg">Volver</a>
+        </div>
+    </div>
+</div>
