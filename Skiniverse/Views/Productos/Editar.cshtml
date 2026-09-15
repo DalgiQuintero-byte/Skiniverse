@@ -1,0 +1,59 @@
+﻿@model Skiniverse.Models.Producto
+
+@{
+    ViewData["Title"] = "Editar Producto";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0 rounded-4 p-4">
+            <h3 class="fw-bold mb-4" style="color: var(--skin-primary);">Editar Producto</h3>
+
+            <form asp-action="Editar" method="post">
+                <input type="hidden" asp-for="IdProducto" />
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Nombre del Producto</label>
+                    <input asp-for="NombreProducto" class="form-control" required />
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Categoría</label>
+                        <input asp-for="Categoria" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Tipo de Piel</label>
+                        <input asp-for="TipoPielRecomendado" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Ingredientes Activos</label>
+                    <input asp-for="IngredientesActivos" class="form-control" required />
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Precio</label>
+                        <input asp-for="PrecioRegular" type="number" step="0.01" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Stock Actual</label>
+                        <input asp-for="StockActual" type="number" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">URL de la Imagen</label>
+                    <input asp-for="ImagenUrl" class="form-control" />
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a asp-action="Admin" class="btn btn-secondary rounded-2">Cancelar</a>
+                    <button type="submit" class="btn text-white fw-semibold" style="background-color: #0F4C81;">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
