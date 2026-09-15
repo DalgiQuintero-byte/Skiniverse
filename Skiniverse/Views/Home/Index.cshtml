@@ -1,8 +1,186 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio - Skiniverse";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    /* Estilos personalizados para emular la tienda de referencia */
+    .hero-banner {
+        background: linear-gradient(135deg, #E2F1E7 0%, #EBF4F6 100%);
+        border-radius: 24px;
+        padding: 60px 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .category-card {
+        border-radius: 20px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        text-decoration: none;
+        color: var(--skin-dark);
+        display: block;
+    }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            color: var(--skin-primary);
+        }
+
+        .category-card img {
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+
+    .bg-cat-1 {
+        background-color: #F8ECEE;
+    }
+
+    .bg-cat-2 {
+        background-color: #E6F4EA;
+    }
+
+    .bg-cat-3 {
+        background-color: #EDE7F6;
+    }
+
+    .bg-cat-4 {
+        background-color: #E1F5FE;
+    }
+
+    .product-carousel-card {
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        background: #ffffff;
+    }
+
+        .product-carousel-card img {
+            height: 220px;
+            object-fit: cover;
+        }
+</style>
+
+<!-- 1. Banner Principal Promocional -->
+<div class="hero-banner mb-5 shadow-sm">
+    <div class="row align-items-center">
+        <div class="col-lg-7">
+            <span class="badge bg-white text-dark border rounded-pill px-3 py-2 mb-3 fw-bold">
+                ✨ Novedad de Temporada
+            </span>
+            <h1 class="display-4 fw-bold mb-3" style="color: var(--skin-primary);">
+                Beauty Date <span style="color: var(--skin-secondary);">Con tu BFF</span>
+            </h1>
+            <p class="fs-5 text-muted mb-4">
+                Encuentra la rutina ideal para tu piel. Productos formulados con ingredientes activos importados para transformar tu piel.
+            </p>
+            <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-skin-primary btn-lg shadow-sm px-4">
+                Explorar Catálogo <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+        <div class="col-lg-5 text-center mt-4 mt-lg-0">
+            <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=600&auto=format&fit=crop" class="img-fluid rounded-4 shadow" alt="Skiniverse Skincare" style="max-height: 320px; object-fit: cover;" />
+        </div>
+    </div>
+</div>
+
+<!-- 2. Sección de Categorías Destacadas -->
+<div class="text-center mb-4">
+    <h3 class="fw-bold" style="color: var(--skin-primary);">Encuentra por Categoria</h3>
+    <p class="text-muted">Explora nuestros productos según tus necesidades</p>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-6 col-md-3">
+        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-1">
+            <img src="https://images.unsplash.com/photo-1556228722-d119f018d361?q=80&w=300&auto=format&fit=crop" alt="Limpiadores" />
+            <h6 class="fw-bold mb-0">Limpiadores</h6>
+        </a>
+    </div>
+    <div class="col-6 col-md-3">
+        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-2">
+            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=300&auto=format&fit=crop" alt="Tónicos" />
+            <h6 class="fw-bold mb-0">Tónicos</h6>
+        </a>
+    </div>
+    <div class="col-6 col-md-3">
+        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-3">
+            <img src="https://images.unsplash.com/photo-1608248597261-1772f7e71360?q=80&w=300&auto=format&fit=crop" alt="Esencias" />
+            <h6 class="fw-bold mb-0">Esencias</h6>
+        </a>
+    </div>
+    <div class="col-6 col-md-3">
+        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-4">
+            <img src="https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=300&auto=format&fit=crop" alt="Sérums" />
+            <h6 class="fw-bold mb-0">Sérums</h6>
+        </a>
+    </div>
+</div>
+
+<!-- 3. Carrusel de Productos Favoritos -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-0" style="color: var(--skin-primary);">Los Más Vendidos</h3>
+        <p class="text-muted small mb-0">Los favoritos de la comunidad Skiniverse</p>
+    </div>
+    <div>
+        <button class="btn btn-outline-secondary btn-sm me-1 rounded-circle" type="button" data-bs-target="#carruselProductos" data-bs-slide="prev">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        <button class="btn btn-outline-secondary btn-sm rounded-circle" type="button" data-bs-target="#carruselProductos" data-bs-slide="next">
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
+<div id="carruselProductos" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <!-- Diapositiva 1 -->
+        <div class="carousel-item active">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="card product-carousel-card h-100 p-2">
+                        <img src="https://images.unsplash.com/photo-1608248597261-1772f7e71360?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded-3" alt="Sérum Hidratante" />
+                        <div class="card-body p-3 text-center">
+                            <h6 class="fw-bold mb-1">Sérum Hidratante</h6>
+                            <p class="text-primary fw-bold mb-2">$55.000</p>
+                            <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-sm btn-outline-dark w-100 rounded-pill">Ver Más</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card product-carousel-card h-100 p-2">
+                        <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded-3" alt="Tónico de Centella" />
+                        <div class="card-body p-3 text-center">
+                            <h6 class="fw-bold mb-1">Tónico Centella</h6>
+                            <p class="text-primary fw-bold mb-2">$68.000</p>
+                            <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-sm btn-outline-dark w-100 rounded-pill">Ver Más</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card product-carousel-card h-100 p-2">
+                        <img src="https://images.unsplash.com/photo-1556228722-d119f018d361?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded-3" alt="Limpiador Facial" />
+                        <div class="card-body p-3 text-center">
+                            <h6 class="fw-bold mb-1">Limpiador Espuma</h6>
+                            <p class="text-primary fw-bold mb-2">$42.000</p>
+                            <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-sm btn-outline-dark w-100 rounded-pill">Ver Más</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card product-carousel-card h-100 p-2">
+                        <img src="https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded-3" alt="Esencia de Arroz" />
+                        <div class="card-body p-3 text-center">
+                            <h6 class="fw-bold mb-1">Esencia Reparadora</h6>
+                            <p class="text-primary fw-bold mb-2">$72.000</p>
+                            <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-sm btn-outline-dark w-100 rounded-pill">Ver Más</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
