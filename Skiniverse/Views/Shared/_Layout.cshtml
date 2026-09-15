@@ -46,7 +46,7 @@
         }
 
             .card-skin:hover {
-                transform: translateY(-50px);
+                transform: translateY(-5px);
                 box-shadow: 0 12px 30px rgba(2, 128, 144, 0.12);
             }
 
@@ -73,9 +73,23 @@
                 <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
                     <span class="brand-logo"><i class="bi bi-droplet-fill me-1" style="color: var(--skin-secondary);"></i>Skiniverse</span>
                 </a>
-                <div class="d-flex align-items-center gap-3">
-                    <a asp-controller="Home" asp-action="Index" class="text-white text-decoration-none fw-semibold">Inicio</a>
-                    <a asp-controller="Home" asp-action="Privacy" class="text-white text-decoration-none fw-semibold">Privacidad</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                        <a asp-controller="Home" asp-action="Index" class="text-white text-decoration-none fw-semibold">Inicio</a>
+                        <a asp-controller="Productos" asp-action="TestPiel" class="text-white text-decoration-none fw-semibold">Test de Piel</a>
+                        <a asp-controller="Home" asp-action="Privacy" class="text-white text-decoration-none fw-semibold">Privacidad</a>
+
+                        <!-- Botones de Cuenta y Acceso -->
+                        <div class="ms-lg-3 d-flex gap-2 align-items-center">
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-sm px-3 rounded-pill fw-semibold">Iniciar Sesión</a>
+                            <a asp-controller="Account" asp-action="Registro" class="btn btn-light btn-sm px-3 rounded-pill fw-bold" style="color: var(--skin-primary);">Registrarse</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>

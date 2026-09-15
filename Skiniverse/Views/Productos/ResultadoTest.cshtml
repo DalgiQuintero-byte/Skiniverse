@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Elige tu Destino";
+}
+
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-8 text-center">
+        <div class="card card-skin p-5 shadow-lg border-0 rounded-4" style="background: white;">
+            <div class="mb-4">
+                <span class="badge bg-light text-secondary p-3 rounded-circle fs-3 shadow-sm">
+                    <i class="bi bi-check2-circle" style="color: var(--skin-secondary);"></i>
+                </span>
+            </div>
+
+            <h1 class="fw-bold mb-3" style="color: var(--skin-primary);">¡Test Completado con Éxito!</h1>
+            <p class="text-muted fs-5 mb-5">Selecciona a dónde deseas dirigirte ahora:</p>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Botón 1: Ir a la Rutina -->
+                <div class="col-md-5">
+                    <div class="p-4 rounded-4 border h-100 d-flex flex-column align-items-center justify-content-between shadow-sm" style="background: var(--skin-ice);">
+                        <div>
+                            <i class="bi bi-stars fs-1 mb-3 d-block" style="color: var(--skin-secondary);"></i>
+                            <h4 class="fw-bold text-dark">Ver Mi Rutina</h4>
+                            <p class="small text-muted">Revisa la recomendación paso a paso diseñada para ti.</p>
+                        </div>
+                        <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-skin-primary w-100 mt-3 py-2 fw-bolSd">
+                            Ir a Rutina
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Botón 2: Ir al Catálogo -->
+                <div class="col-md-5">
+                    <div class="p-4 rounded-4 border h-100 d-flex flex-column align-items-center justify-content-between shadow-sm" style="background: var(--skin-light);">
+                        <div>
+                            <i class="bi bi-grid-3x3-gap fs-1 mb-3 d-block" style="color: var(--skin-primary);"></i>
+                            <h4 class="fw-bold text-dark">Ir al Catálogo</h4>
+                            <p class="small text-muted">Explora la tienda completa y adquiere tus productos sueltos.</p>
+                        </div>
+                        <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-outline-dark w-100 mt-3 py-2 fw-bold" style="border-color: var(--skin-primary); color: var(--skin-primary);">
+                            Ver Catálogo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
