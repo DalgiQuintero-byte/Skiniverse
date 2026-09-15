@@ -1,8 +1,258 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio - Skiniverse";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    /* Estilos personalizados en paleta de AZULES (Azul Oscuro, Azul Medio y Azul Claro) */
+    .hero-carousel-container {
+        border-radius: 16px; /* Forma más grande y rectangular */
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(27, 60, 115, 0.08);
+        background-color: #ffffff;
+    }
+
+    /* Diapositiva 1 - Gradiente Azul Claro */
+    .hero-banner-slide-1 {
+        background: linear-gradient(135deg, #EBF4F6 0%, #D4EBF2 100%);
+        padding: 60px 50px;
+        min-height: 420px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Diapositiva 2 - Gradiente Azul Medio Soft */
+    .hero-banner-slide-2 {
+        background: linear-gradient(135deg, #DCEEF3 0%, #C3E3EC 100%);
+        padding: 60px 50px;
+        min-height: 420px;
+        display: flex;
+        align-items: center;
+    }
+
+    .badge-blue {
+        background-color: #ffffff;
+        color: #028090;
+        font-weight: 700;
+        border-radius: 50px;
+        padding: 8px 18px;
+        font-size: 0.85rem;
+        display: inline-block;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .btn-skin-blue {
+        background-color: #1B3C73;
+        color: #ffffff;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 32px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(27, 60, 115, 0.25);
+    }
+
+        .btn-skin-blue:hover {
+            background-color: #028090;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+    /* Tarjetas de Categorías en Tonos Azules y Fríos */
+    .category-card {
+        border-radius: 16px; /* Formato más rectangular suave */
+        padding: 24px 15px 15px 15px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none !important;
+        color: #0D1B2A;
+        display: block;
+        height: 100%;
+        border: 1px solid rgba(2, 128, 144, 0.08);
+    }
+
+        .category-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(27, 60, 115, 0.12);
+            color: #1B3C73;
+        }
+
+    .category-img-wrapper {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+
+        .category-img-wrapper img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.08));
+        }
+
+    /* Variaciones de Fondo Azul en Categorías */
+    .bg-cat-azul-1 {
+        background-color: #EBF4F6;
+    }
+
+    .bg-cat-azul-2 {
+        background-color: #E1F1F5;
+    }
+
+    .bg-cat-azul-3 {
+        background-color: #D6EDF3;
+    }
+
+    .bg-cat-azul-4 {
+        background-color: #CCE8F0;
+    }
+</style>
+
+<!-- 1. Carrusel de Banners Rectangular y Más Grande -->
+<div id="heroCarousel" class="carousel slide hero-carousel-container mb-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    </div>
+
+    <div class="carousel-inner">
+        <!-- Diapositiva 1 -->
+        <div class="carousel-item active">
+            <div class="hero-banner-slide-1">
+                <div class="row align-items-center w-100">
+                    <div class="col-lg-7 ps-lg-4">
+                        <span class="badge-blue mb-3">
+                            ✨ Experiencias SkiniVersi
+                        </span>
+                        <h1 class="display-4 fw-bold mb-2" style="color: #1B3C73;">
+                            Tú piel,tu propio universo <span style="color: #028090;"></span>
+                        </h1>
+                        <p class="text-secondary fs-5 mb-4">
+                            Explora productos formulados para devolver el balance, la luz y la textura natural de tu rostro. Una experiencia de skincare hecha a tu medida
+                        </p>
+                        <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-skin-blue">
+                            Escuentra tu rutina ideal ✨  <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-5 text-center mt-4 mt-lg-0">
+                        <img src="https://static.vecteezy.com/system/resources/previews/057/639/867/large_2x/a-man-and-woman-are-smiling-while-using-facial-products-couple-skincare-routine-photo.jpeg"
+                             class="img-fluid rounded-3 shadow-sm"
+                             alt="Beauty Date Skiniverse"
+                             style="max-height: 300px; object-fit: cover;" />
+                    </div>
+                </div>
+            </div>
+        </div>.............
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ......................................
+
+        <!-- Diapositiva 2 -->
+        <div class="carousel-item">
+            <div class="hero-banner-slide-2">
+                <div class="row align-items-center w-100">
+                    <div class="col-lg-7 ps-lg-4">
+                        <span class="badge-blue mb-3">
+                            🌿 Novedad de Temporada
+                        </span>
+                        <h1 class="display-4 fw-bold mb-2" style="color: #1B3C73;">
+                            Piel Radiante & <span style="color: #028090;">Saludable</span>
+                        </h1>
+                        <p class="text-secondary fs-5 mb-4">
+                            Descubre nuestra selección exclusiva de tónicos, esencias y sérums de alta calidad.
+                        </p>
+                        <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-skin-blue">
+                            Explorar Catálogo <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-5 text-center mt-4 mt-lg-0">
+                        <img src="https://thumbs.dreamstime.com/b/cosm%C3%A9ticos-antienvejecedores-de-los-pares-de-los-pares-9495551.jpg"
+                             class="img-fluid rounded-3 shadow-sm"
+                             alt="Skincare Skiniverse"
+                             style="max-height: 300px; object-fit: cover;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones de Navegación del Carrusel -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+    </button>
+</div>
+
+<!-- 2. Sección de Categorías -->
+<div class="text-center mb-4">
+    <h3 class="fw-bold" style="color: #1B3C73;">Encuentra por Categoría</h3>
+    <p class="text-muted">Explora nuestros productos según las necesidades reales de tu piel</p>
+</div>
+
+<div class="row g-4 mb-5">
+    <!-- Limpiadores -->
+    <div class="col-6 col-md-3">
+        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-azul-1">
+            <div class="category-img-wrapper">
+                <img src="https://cocopinkstore.com/cdn/shop/files/espumadolcebella-1.jpg?v=1757108578" alt="Limpiadores En Espuma" />
+            </div>
+            <h6 class="fw-bold mb-0" style="color: #1B3C73;">Limpiadores En Espuma</h6>
+        </a>
+    </div>
+
+    <!-- Tónicos -->
+    <div class="col-6 col-md-3">
+        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-azul-2">
+            <div class="category-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop" alt="Tónicos" />
+            </div>
+            <h6 class="fw-bold mb-0" style="color: #1B3C73;">Tónicos</h6>
+        </a>
+    </div>
+
+    <!-- Esencias -->
+    <div class="col-6 col-md-3">
+        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-azul-3">
+            <div class="category-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1608248597261-1772f7e71360?q=80&w=400&auto=format&fit=crop" alt="Esencias" />
+            </div>
+            <h6 class="fw-bold mb-0" style="color: #1B3C73;">Esencias</h6>
+        </a>
+    </div>
+
+    <!-- Sérums -->
+    <div class="col-6 col-md-3">
+        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-azul-4">
+            <div class="category-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=400&auto=format&fit=crop" alt="Sérums" />
+            </div>
+            <h6 class="fw-bold mb-0" style="color: #1B3C73;">Sérums</h6>
+        </a>
+    </div>
 </div>
