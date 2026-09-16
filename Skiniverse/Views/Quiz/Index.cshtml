@@ -1,0 +1,80 @@
+﻿@model Skiniverse.Models.EncuestaModel
+
+@{
+    ViewData["Title"] = "Diagnóstico Profesional de Piel";
+}
+
+<div class="row justify-content-center my-4">
+    <div class="col-md-9">
+        <div class="card card-skin p-4 p-md-5 shadow-sm border-0 rounded-4" style="background: white;">
+
+            <!-- Encabezado de la Encuesta -->
+            <div class="text-center mb-5">
+                <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill mb-2">
+                    <i class="bi bi-clipboard2-pulse me-1" style="color: var(--skin-secondary);"></i> Diagnóstico Clínico Skiniverse
+                </span>
+                <h2 class="fw-bold" style="color: var(--skin-primary);">Test de Piel Personalizado</h2>
+                <p class="text-muted">Responde con honestidad para que nuestra inteligencia analice tu tipo de piel y cree la rutina perfecta.</p>
+            </div>
+
+            <!-- Formulario del Test -->
+            <form asp-controller="Productos" asp-action="ResultadoTest" method="post">
+
+                <!-- Sección 1: Información Básica -->
+                <div class="mb-4 p-4 rounded-3" style="background: var(--skin-ice);">
+                    <h5 class="fw-bold mb-3" style="color: var(--skin-primary);"><i class="bi bi-person-badge me-2"></i>1. Información Básica</h5>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">¿Cuál es tu rango de edad?</label>
+                        <select class="form-select border-0 shadow-sm" name="RangoEdad">
+                            <option value="Menor de 18 años">Menor de 18 años</option>
+                            <option value="18 – 25 años">18 – 25 años</option>
+                            <option value="26 – 35 años">26 – 35 años</option>
+                            <option value="36 – 45 años">36 – 45 años</option>
+                            <option value="46 – 55 años">46 – 55 años</option>
+                            <option value="Mayor de 55 años">Mayor de 55 años</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">¿Cómo describirías actualmente tu piel?</label>
+                        <select class="form-select border-0 shadow-sm" name="TipoPielActual">
+                            <option value="Muy seca">Muy seca</option>
+                            <option value="Seca">Seca</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Mixta">Mixta</option>
+                            <option value="Grasa">Grasa</option>
+                            <option value="No estoy seguro/a">No estoy seguro/a</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Objetivos -->
+                <div class="mb-4 p-4 rounded-3" style="background: var(--skin-light);">
+                    <h5 class="fw-bold mb-3" style="color: var(--skin-primary);"><i class="bi bi-bullseye me-2"></i>2. Objetivo Principal</h5>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">¿Qué problema de tu piel te gustaría mejorar principalmente?</label>
+                        <select class="form-select border-0 shadow-sm" name="ObjetivoPrincipal">
+                            <option value="Sequedad">Sequedad</option>
+                            <option value="Exceso de grasa">Exceso de grasa</option>
+                            <option value="Acné">Acné</option>
+                            <option value="Poros visibles">Poros visibles</option>
+                            <option value="Manchas">Manchas</option>
+                            <option value="Sensibilidad">Sensibilidad</option>
+                            <option value="Líneas de expresión">Líneas de expresión</option>
+                            <option value="Ninguno / solo quiero mantener mi piel saludable">Ninguno / solo quiero mantener mi piel saludable</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Botón de Enviar que lleva a los dos botones de elección -->
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-skin-primary py-3 fw-bold fs-5 shadow-sm">
+                        Analizar mi piel y ver opciones <i class="bi bi-arrow-right-short ms-1"></i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

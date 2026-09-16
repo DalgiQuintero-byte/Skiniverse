@@ -75,6 +75,19 @@ namespace Skiniverse.Controllers
             return View(listaProductos);
         }
 
+        // GET: /Productos/TestPiel (Muestra la encuesta)
+        public IActionResult TestPiel()
+        {
+            return View();
+        }
+
+        // POST: /Productos/ResultadoTest (Recibe el test y muestra los dos botones de elección)
+        [HttpPost]
+        public IActionResult ResultadoTest(EncuestaModel modelo)
+        {
+            return View();
+        }
+
         // GET: /Productos/Detalles/5
         public IActionResult Detalles(int id)
         {
@@ -104,19 +117,6 @@ namespace Skiniverse.Controllers
             }
 
             return View(producto);
-        }
-
-        // GET: /Productos/TestPiel (Muestra la encuesta)
-        public IActionResult TestPiel()
-        {
-            return View();
-        }
-
-        // POST: /Productos/ResultadoTest
-        [HttpPost]
-        public IActionResult ResultadoTest(EncuestaModel modelo)
-        {
-            return View();
         }
 
         // GET: /Productos/Crear
