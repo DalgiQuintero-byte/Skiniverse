@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Inicio - Skiniverse";
 }
 
@@ -59,7 +59,7 @@
 
     /* Tarjetas de Categorías en Tonos Azules y Fríos */
     .category-card {
-        border-radius: 16px; /* Formato más rectangular suave */
+        border-radius: 16px;
         padding: 24px 15px 20px 15px;
         text-align: center;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -113,24 +113,13 @@
     }
 
     /* Variaciones de Fondo Azul en Categorías */
-    .bg-cat-azul-1 {
-        background-color: #EBF4F6;
-    }
-
-    .bg-cat-azul-2 {
-        background-color: #E1F1F5;
-    }
-
-    .bg-cat-azul-3 {
-        background-color: #D6EDF3;
-    }
-
-    .bg-cat-azul-4 {
-        background-color: #CCE8F0;
-    }
+    .bg-cat-azul-1 { background-color: #EBF4F6; }
+    .bg-cat-azul-2 { background-color: #E1F1F5; }
+    .bg-cat-azul-3 { background-color: #D6EDF3; }
+    .bg-cat-azul-4 { background-color: #CCE8F0; }
 </style>
 
-<!-- 1. Carrusel de Banners Rectangular y Más Grande -->
+<!-- 1. Carrusel de Banners Rectangular -->
 <div id="heroCarousel" class="carousel slide hero-carousel-container mb-5" data-bs-ride="carousel">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -144,15 +133,14 @@
                 <div class="row align-items-center w-100">
                     <div class="col-lg-7 ps-lg-4">
                         <span class="badge-blue mb-3">
-                            ✨ Experiencias SkiniVersi
+                            ✨ Experiencias Skiniverse
                         </span>
                         <h1 class="display-4 fw-bold mb-2" style="color: #1B3C73;">
-                            Tú piel,tu propio universo <span style="color: #028090;"></span>
+                            Tu piel, tu propio universo
                         </h1>
                         <p class="text-secondary fs-5 mb-4">
-                            Explora productos formulados para devolver el balance, la luz y la textura natural de tu rostro. Una experiencia de skincare hecha a tu medida
+                            Explora productos formulados para devolver el balance, la luz y la textura natural de tu rostro. Una experiencia de skincare hecha a tu medida.
                         </p>
-                        <!-- BOTÓN PARA REDIRIGIR A LA VISTA DE RUTINAS (QUIZ) -->
                         <a asp-controller="Quiz" asp-action="Index" class="btn btn-skin-blue">
                             Encuentra tu rutina ideal ✨ <i class="bi bi-arrow-right ms-2"></i>
                         </a>
