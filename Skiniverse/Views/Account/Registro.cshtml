@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Registro - Skiniverse";
+}
+
+<div class="row justify-content-center align-items-center" style="min-height: 75vh;">
+    <div class="col-md-5">
+        <div class="card card-skin p-4 p-md-5 shadow-lg border-0 rounded-4" style="background: white;">
+
+            <div class="text-center mb-4">
+                <h2 class="fw-bold" style="color: var(--skin-primary);">Crea tu cuenta</h2>
+                <p class="text-muted small">Únete a Skiniverse para guardar tu diagnóstico clínico y tu rutina personalizada.</p>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger py-2 small text-center mb-3">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <form asp-controller="Account" asp-action="Registro" method="post">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Correo Electrónico</label>
+                    <input type="email" name="correo" class="form-control border-0 shadow-sm py-2" placeholder="tu@correo.com" required />
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Contraseña</label>
+                    <input type="password" name="contrasena" class="form-control border-0 shadow-sm py-2" placeholder="••••••••" required />
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-skin-primary py-2 fw-bold shadow-sm">
+                        Registrarse <i class="bi bi-person-plus-fill ms-1"></i>
+                    </button>
+                </div>
+
+                <div class="text-center mt-3">
+                    <span class="text-muted small">¿Ya tienes una cuenta?</span>
+                    <a asp-controller="Account" asp-action="Login" class="text-decoration-none fw-semibold small" style="color: var(--skin-secondary);"> Inicia sesión aquí</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

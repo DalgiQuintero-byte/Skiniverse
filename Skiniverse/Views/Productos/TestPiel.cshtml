@@ -1,58 +1,224 @@
-﻿@model Skiniverse.Models.EncuestaModel
+@model Skiniverse.Models.EncuestaModel
 
 @{
-    ViewData["Title"] = "Test de Piel Skiniverse";
+    ViewData["Title"] = "Test de Diagnóstico Clínico - Skiniverse";
 }
 
 <div class="row justify-content-center my-4">
-    <div class="col-md-9">
-        <div class="card card-skin p-4 p-md-5 shadow-sm border-0 rounded-4" style="background: white;">
+    <div class="col-lg-10">
+        <div class="card card-skin p-4 p-md-5 shadow-lg border-0 rounded-4" style="background: white;">
 
             <div class="text-center mb-5">
-                <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill mb-2">
-                    <i class="bi bi-clipboard2-pulse me-1" style="color: var(--skin-secondary);"></i> Diagnóstico Clínico
-                </span>
-                <h2 class="fw-bold" style="color: var(--skin-primary);">Test de Piel Personalizado</h2>
-                <p class="text-muted">Responde para que nuestra plataforma diseñe tu experiencia ideal.</p>
+                <span class="badge bg-light text-primary px-3 py-2 rounded-pill fw-bold mb-2" style="color: var(--skin-secondary) !important;">Evaluación Dermatológica Avanzada</span>
+                <h2 class="fw-bold" style="color: var(--skin-primary);">Encuesta Inicial para el Ingreso de Usuarios</h2>
+                <p class="text-muted">Responde con sinceridad para que nuestro algoritmo clínico determine los activos y rutina ideales para tu rostro.</p>
             </div>
 
-            <form asp-controller="Productos" asp-action="ResultadoTest" method="post">
+            <form asp-controller="Productos" asp-action="TestPiel" method="post">
 
-                <div class="mb-4 p-4 rounded-3" style="background: var(--skin-ice);">
-                    <h5 class="fw-bold mb-3" style="color: var(--skin-primary);"><i class="bi bi-person-badge me-2"></i>1. Información Básica</h5>
+                <!-- 1. INFORMACIÓN BÁSICA -->
+                <div class="mb-5 p-4 rounded-4" style="background-color: var(--skin-light);">
+                    <h4 class="fw-bold mb-3" style="color: var(--skin-primary);"><i class="bi bi-person-badge me-2"></i>1. Información básica</h4>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">¿Cuál es tu rango de edad?</label>
-                        <select class="form-select border-0 shadow-sm" name="RangoEdad">
-                            <option value="Menor de 18 años">Menor de 18 años</option>
-                            <option value="18 – 25 años">18 – 25 años</option>
-                            <option value="26 – 35 años">26 – 35 años</option>
-                            <option value="36 – 45 años">36 – 45 años</option>
-                            <option value="46 – 55 años">46 – 55 años</option>
-                            <option value="Mayor de 55 años">Mayor de 55 años</option>
+                        <label class="form-label fw-semibold">1. ¿Cuál es tu rango de edad?</label>
+                        <select name="rangoEdad" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Menor de 18">Menor de 18 años</option>
+                            <option value="18-25">18 – 25 años</option>
+                            <option value="26-35">26 – 35 años</option>
+                            <option value="36-45">36 – 45 años</option>
+                            <option value="46-55">46 – 55 años</option>
+                            <option value="Mayor de 55">Mayor de 55 años</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">¿Cómo describirías actualmente tu piel?</label>
-                        <select class="form-select border-0 shadow-sm" name="TipoPielActual">
+                        <label class="form-label fw-semibold">2. ¿Cómo describirías actualmente tu piel?</label>
+                        <select name="tipoPielActual" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
                             <option value="Muy seca">Muy seca</option>
                             <option value="Seca">Seca</option>
                             <option value="Normal">Normal</option>
                             <option value="Mixta">Mixta</option>
                             <option value="Grasa">Grasa</option>
-                            <option value="No estoy seguro/a">No estoy seguro/a</option>
+                            <option value="No seguro">No estoy seguro/a</option>
                         </select>
                     </div>
                 </div>
 
+                <!-- 2. NIVEL DE HIDRATACIÓN -->
+                <div class="mb-5 p-4 rounded-4" style="background-color: var(--skin-light);">
+                    <h4 class="fw-bold mb-3" style="color: var(--skin-primary);"><i class="bi bi-droplet me-2"></i>2. Nivel de hidratación</h4>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">1. Después de lavar tu rostro y no aplicar ningún producto durante 30 minutos, ¿cómo sientes tu piel?</label>
+                        <select name="hidratacionLavado" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Estirada y muy seca">Estirada y muy seca</option>
+                            <option value="Algo estirada">Algo estirada</option>
+                            <option value="Cómoda">Cómoda</option>
+                            <option value="Grasa en algunas zonas">Grasa en algunas zonas</option>
+                            <option value="Grasa en casi todo el rostro">Grasa en casi todo el rostro</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">2. ¿Con qué frecuencia notas descamación o pequeñas zonas de piel que se desprenden?</label>
+                        <select name="descamacion" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Nunca">Nunca</option>
+                            <option value="Rara vez">Rara vez</option>
+                            <option value="Algunas veces">Algunas veces</option>
+                            <option value="Frecuentemente">Frecuentemente</option>
+                            <option value="Casi siempre">Casi siempre</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">3. ¿Sientes que tu piel necesita hidratación durante el día?</label>
+                        <select name="necesidadHidratacionDia" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Nunca">Nunca</option>
+                            <option value="Rara vez">Rara vez</option>
+                            <option value="Algunas veces">Algunas veces</option>
+                            <option value="Frecuentemente">Frecuentemente</option>
+                            <option value="Siempre">Siempre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 3. PRODUCCIÓN DE GRASA -->
+                <div class="mb-5 p-4 rounded-4" style="background-color: var(--skin-light);">
+                    <h4 class="fw-bold mb-3" style="color: var(--skin-primary);"><i class="bi bi-shield-exclamation me-2"></i>3. Producción de grasa</h4>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">1. ¿Cómo suele verse tu rostro unas horas después de lavarlo?</label>
+                        <select name="rostroHorasDespues" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Mate y seco">Mate y seco</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Brillante zona T">Brillante principalmente en la frente, nariz y mentón</option>
+                            <option value="Brillante casi todo">Brillante en casi todo el rostro</option>
+                            <option value="Muy brillante">Muy brillante y grasoso</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">2. ¿Dónde notas mayor cantidad de grasa?</label>
+                        <select name="zonaMayorGrasa" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Ninguna">En ninguna zona</option>
+                            <option value="Frente">Frente</option>
+                            <option value="Nariz">Nariz</option>
+                            <option value="Menton">Mentón</option>
+                            <option value="Zona T">Frente, nariz y mentón (zona T)</option>
+                            <option value="Todo el rostro">En todo el rostro</option>
+                            <option value="Mejillas">En las mejillas</option>
+                            <option value="Labios">En la zona de los labios</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">3. ¿Con qué frecuencia tienes poros visibles?</label>
+                        <select name="porosVisibles" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Nunca">Nunca</option>
+                            <option value="Rara vez">Rara vez</option>
+                            <option value="Algunas veces">Algunas veces</option>
+                            <option value="Frecuentemente">Frecuentemente</option>
+                            <option value="Muy frecuentemente">Muy frecuentemente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 4. SENSIBILIDAD DE LA PIEL -->
+                <div class="mb-5 p-4 rounded-4" style="background-color: var(--skin-light);">
+                    <h4 class="fw-bold mb-3" style="color: var(--skin-primary);"><i class="bi bi-heart-pulse me-2"></i>4. Sensibilidad de la piel</h4>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">1. ¿Tu piel se enrojece fácilmente?</label>
+                        <select name="enrojecimientoFacil" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Nunca">Nunca</option>
+                            <option value="Rara vez">Rara vez</option>
+                            <option value="Algunas veces">Algunas veces</option>
+                            <option value="Frecuentemente">Frecuentemente</option>
+                            <option value="Muy frecuentemente">Muy frecuentemente</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">2. ¿Sientes ardor, picazón o incomodidad al utilizar productos nuevos?</label>
+                        <select name="ardorProductosNuevos" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Nunca">Nunca</option>
+                            <option value="Rara vez">Rara vez</option>
+                            <option value="Algunas veces">Algunas veces</option>
+                            <option value="Frecuentemente">Frecuentemente</option>
+                            <option value="Siempre">Siempre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 5. ACNÉ E IMPERFECCIONES -->
+                <div class="mb-5 p-4 rounded-4" style="background-color: var(--skin-light);">
+                    <h4 class="fw-bold mb-3" style="color: var(--skin-primary);"><i class="bi bi-exclamation-triangle me-2"></i>5. Acné e imperfecciones</h4>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">1. ¿Con qué frecuencia aparecen granitos o brotes?</label>
+                        <select name="frecuenciaGranitos" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Nunca">Nunca</option>
+                            <option value="Rara vez">Rara vez</option>
+                            <option value="Algunas veces">Algunas veces</option>
+                            <option value="Frecuentemente">Frecuentemente</option>
+                            <option value="Muy frecuentemente">Muy frecuentemente</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">2. ¿Tienes puntos negros o puntos blancos?</label>
+                        <select name="puntosNegros" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="No">No</option>
+                            <option value="Pocos">Pocos</option>
+                            <option value="Algunos">Algunos</option>
+                            <option value="Muchos">Muchos</option>
+                            <option value="Muy frecuentes">Muy frecuentes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 6. HÁBITOS Y OBJETIVOS PRINCIPALES -->
+                <div class="mb-5 p-4 rounded-4" style="background-color: var(--skin-light);">
+                    <h4 class="fw-bold mb-3" style="color: var(--skin-primary);"><i class="bi bi-bullseye me-2"></i>6. Objetivos de Cuidado</h4>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">¿Qué problema de tu piel te gustaría mejorar principalmente?</label>
+                        <select name="problemaPrincipal" class="form-select border-0 shadow-sm py-2" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Sequedad">Sequedad</option>
+                            <option value="Exceso de grasa">Exceso de grasa</option>
+                            <option value="Acné">Acné</option>
+                            <option value="Poros visibles">Poros visibles</option>
+                            <option value="Manchas">Manchas</option>
+                            <option value="Sensibilidad">Sensibilidad</option>
+                            <option value="Líneas de expresión">Líneas de expresión</option>
+                            <option value="Saludable">Solo quiero mantener mi piel saludable</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- BOTÓN DE ENVÍO -->
                 <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-skin-primary py-3 fw-bold fs-5 shadow-sm">
-                        Enviar respuestas y elegir camino <i class="bi bi-arrow-right-short ms-1"></i>
+                    <button type="submit" class="btn btn-skin-primary py-3 fw-bold shadow-sm fs-5">
+                        Enviar Cuestionario y Ver Resultado <i class="bi bi-arrow-right-circle-fill ms-2"></i>
                     </button>
                 </div>
 
             </form>
+
         </div>
     </div>
 </div>

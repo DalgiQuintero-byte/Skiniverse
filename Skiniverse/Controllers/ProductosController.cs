@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Skiniverse.Models;
 using System.Data;
@@ -14,81 +14,67 @@ namespace Skiniverse.Controllers
             _configuration = configuration;
         }
 
-        // GET: /Productos/Detalles/5
-        public IActionResult Detalles(int id)
-        {
-            Producto producto = null;
-            string conexionString = _configuration.GetConnectionString("ConexionSQL");
-
-            using (SqlConnection conexion = new SqlConnection(conexionString))
-            {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos WHERE IdProducto = @Id";
-                SqlCommand cmd = new SqlCommand(query, conexion);
-                cmd.Parameters.AddWithValue("@Id", id);
-
-                conexion.Open();
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        producto = new Producto
-                        {
-                            IdProducto = Convert.ToInt32(reader["IdProducto"]),
-                            NombreProducto = reader["NombreProducto"].ToString() ?? "",
-                            Categoria = reader["Categoria"].ToString() ?? "",
-                            TipoPielRecomendado = reader["TipoPielRecomendado"].ToString() ?? "",
-                            IngredientesActivos = reader["IngredientesActivos"].ToString() ?? "",
-                            PrecioRegular = Convert.ToDecimal(reader["PrecioRegular"]),
-                            StockActual = Convert.ToInt32(reader["StockActual"]),
-                            ImagenUrl = reader["ImagenUrl"] != DBNull.Value ? reader["ImagenUrl"].ToString() : ""
-                        };
-                    }
-                }
-            }
-
-            if (producto == null)
-            {
-                return NotFound();
-            }
-
-            return View(producto);
-        }
-
-        // GET: /Productos/Catalogo
-        public IActionResult Catalogo()
+        // GET: /Productos/Catalogo?categoria=Limpiadores
+        public IActionResult Catalogo(string? categoria)
         {
             List<Producto> listaProductos = new List<Producto>();
             string conexionString = _configuration.GetConnectionString("ConexionSQL");
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos";
-                SqlCommand cmd = new SqlCommand(query, conexion);
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto";
+
+                if (!string.IsNullOrEmpty(categoria))
+                {
+                    query += " WHERE Categoria = @Categoria";
+                }
+
                 conexion.Open();
+                SqlCommand cmd = new SqlCommand(query, conexion);
+
+                if (!string.IsNullOrEmpty(categoria))
+                {
+                    cmd.Parameters.AddWithValue("@Categoria", categoria);
+                }
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        listaProductos.Add(new Producto
-                        {
-                            IdProducto = Convert.ToInt32(reader["IdProducto"]),
-                            NombreProducto = reader["NombreProducto"].ToString() ?? "",
-                            Categoria = reader["Categoria"].ToString() ?? "",
-                            TipoPielRecomendado = reader["TipoPielRecomendado"].ToString() ?? "",
-                            IngredientesActivos = reader["IngredientesActivos"].ToString() ?? "",
-                            PrecioRegular = Convert.ToDecimal(reader["PrecioRegular"]),
-                            StockActual = Convert.ToInt32(reader["StockActual"]),
-                            ImagenUrl = reader["ImagenUrl"] != DBNull.Value ? reader["ImagenUrl"].ToString() : ""
-                        });
+                        listaProductos.Add(MapearProducto(reader));
+                    }
+                }
+            }
+
+            ViewData["CategoriaSeleccionada"] = categoria;
+            return View(listaProductos);
+        }
+
+        // GET: /Productos/Admin (Vista de gestión para administrador)
+        public IActionResult Admin()
+        {
+            List<Producto> listaProductos = new List<Producto>();
+            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+
+            using (SqlConnection conexion = new SqlConnection(conexionString))
+            {
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto";
+                conexion.Open();
+
+                SqlCommand cmd = new SqlCommand(query, conexion);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaProductos.Add(MapearProducto(reader));
                     }
                 }
             }
 
             return View(listaProductos);
-     
         }
+
         // GET: /Productos/TestPiel (Muestra la encuesta)
         public IActionResult TestPiel()
         {
@@ -102,7 +88,38 @@ namespace Skiniverse.Controllers
             return View();
         }
 
-        // GET: /Productos/Crear (Muestra el formulario)
+        // GET: /Productos/Detalles/5
+        public IActionResult Detalles(int id)
+        {
+            Producto producto = null;
+            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+
+            using (SqlConnection conexion = new SqlConnection(conexionString))
+            {
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto WHERE IdProducto = @Id";
+                conexion.Open();
+
+                SqlCommand cmd = new SqlCommand(query, conexion);
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        producto = MapearProducto(reader);
+                    }
+                }
+            }
+
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            return View(producto);
+        }
+
+        // GET: /Productos/Crear
         public IActionResult Crear()
         {
             return View();
@@ -119,14 +136,14 @@ namespace Skiniverse.Controllers
 
                 using (SqlConnection conexion = new SqlConnection(conexionString))
                 {
-                    string query = @"INSERT INTO Productos 
+                    string query = @"INSERT INTO Producto 
                                     (NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl) 
                                     VALUES 
                                     (@NombreProducto, @Categoria, @TipoPielRecomendado, @IngredientesActivos, @PrecioRegular, @StockActual, @ImagenUrl)";
 
+                    conexion.Open();
                     SqlCommand cmd = new SqlCommand(query, conexion);
 
-                    // Parámetros seguros para prevenir inyección SQL
                     cmd.Parameters.AddWithValue("@NombreProducto", producto.NombreProducto);
                     cmd.Parameters.AddWithValue("@Categoria", producto.Categoria);
                     cmd.Parameters.AddWithValue("@TipoPielRecomendado", producto.TipoPielRecomendado);
@@ -135,14 +152,116 @@ namespace Skiniverse.Controllers
                     cmd.Parameters.AddWithValue("@StockActual", producto.StockActual);
                     cmd.Parameters.AddWithValue("@ImagenUrl", (object)producto.ImagenUrl ?? DBNull.Value);
 
-                    conexion.Open();
                     cmd.ExecuteNonQuery();
                 }
 
-                return RedirectToAction(nameof(Catalogo));
+                return RedirectToAction(nameof(Admin));
             }
 
             return View(producto);
+        }
+
+        // GET: /Productos/Editar/5
+        public IActionResult Editar(int id)
+        {
+            Producto producto = null;
+            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+
+            using (SqlConnection conexion = new SqlConnection(conexionString))
+            {
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto WHERE IdProducto = @Id";
+                conexion.Open();
+
+                SqlCommand cmd = new SqlCommand(query, conexion);
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        producto = MapearProducto(reader);
+                    }
+                }
+            }
+
+            if (producto == null) return NotFound();
+            return View(producto);
+        }
+
+        // POST: /Productos/Editar/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Editar(Producto producto)
+        {
+            if (ModelState.IsValid)
+            {
+                string conexionString = _configuration.GetConnectionString("ConexionSQL");
+
+                using (SqlConnection conexion = new SqlConnection(conexionString))
+                {
+                    string query = @"UPDATE Producto 
+                                    SET NombreProducto = @NombreProducto, 
+                                        Categoria = @Categoria, 
+                                        TipoPielRecomendado = @TipoPielRecomendado, 
+                                        IngredientesActivos = @IngredientesActivos, 
+                                        PrecioRegular = @PrecioRegular, 
+                                        StockActual = @StockActual, 
+                                        ImagenUrl = @ImagenUrl 
+                                    WHERE IdProducto = @IdProducto";
+
+                    conexion.Open();
+                    SqlCommand cmd = new SqlCommand(query, conexion);
+
+                    cmd.Parameters.AddWithValue("@IdProducto", producto.IdProducto);
+                    cmd.Parameters.AddWithValue("@NombreProducto", producto.NombreProducto);
+                    cmd.Parameters.AddWithValue("@Categoria", producto.Categoria);
+                    cmd.Parameters.AddWithValue("@TipoPielRecomendado", producto.TipoPielRecomendado);
+                    cmd.Parameters.AddWithValue("@IngredientesActivos", producto.IngredientesActivos);
+                    cmd.Parameters.AddWithValue("@PrecioRegular", producto.PrecioRegular);
+                    cmd.Parameters.AddWithValue("@StockActual", producto.StockActual);
+                    cmd.Parameters.AddWithValue("@ImagenUrl", (object)producto.ImagenUrl ?? DBNull.Value);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                return RedirectToAction(nameof(Admin));
+            }
+
+            return View(producto);
+        }
+
+        // GET: /Productos/Eliminar/5
+        public IActionResult Eliminar(int id)
+        {
+            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+
+            using (SqlConnection conexion = new SqlConnection(conexionString))
+            {
+                string query = "DELETE FROM Producto WHERE IdProducto = @Id";
+                conexion.Open();
+
+                SqlCommand cmd = new SqlCommand(query, conexion);
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                cmd.ExecuteNonQuery();
+            }
+
+            return RedirectToAction(nameof(Admin));
+        }
+
+        private Producto MapearProducto(SqlDataReader reader)
+        {
+            return new Producto
+            {
+                IdProducto = Convert.ToInt32(reader["IdProducto"]),
+                NombreProducto = reader["NombreProducto"].ToString() ?? "",
+                Categoria = reader["Categoria"].ToString() ?? "",
+                TipoPielRecomendado = reader["TipoPielRecomendado"].ToString() ?? "",
+                IngredientesActivos = reader["IngredientesActivos"].ToString() ?? "",
+                PrecioRegular = Convert.ToDecimal(reader["PrecioRegular"]),
+                StockActual = Convert.ToInt32(reader["StockActual"]),
+                ImagenUrl = reader["ImagenUrl"] != DBNull.Value ? reader["ImagenUrl"].ToString() : ""
+            };
         }
     }
 }

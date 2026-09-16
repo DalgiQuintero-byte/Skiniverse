@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -86,6 +86,12 @@
                         <a asp-controller="Productos" asp-action="Index" class="text-white text-decoration-none fw-semibold">Administrar</a>
                         <a asp-controller="Productos" asp-action="TestPiel" class="text-white text-decoration-none fw-semibold">Test de Piel</a>
                         <a asp-controller="Home" asp-action="Privacy" class="text-white text-decoration-none fw-semibold">Privacidad</a>
+
+                        <!-- Botón del Carrito -->
+                        <button class="btn btn-outline-light position-relative ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#carritoDrawer">
+                            <i class="bi bi-cart3 fs-5"></i>
+                            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                        </button>
 
                         <!-- Botones de Cuenta y Acceso -->
                         <div class="ms-lg-3 d-flex gap-2 align-items-center">
