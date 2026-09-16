@@ -14,16 +14,29 @@ namespace Skiniverse.Controllers
             _configuration = configuration;
         }
 
-        // GET: /Productos/Catalogo
-        public IActionResult Catalogo()
+        // GET: /Productos/Catalogo?categoria=Limpiadores
+        public IActionResult Catalogo(string? categoria)
         {
             List<Producto> listaProductos = new List<Producto>();
             string conexionString = _configuration.GetConnectionString("ConexionSQL");
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
+                // Si viene el parámetro categoria, añadimos el filtro WHERE en la consulta SQL
                 string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos";
+
+                if (!string.IsNullOrEmpty(categoria))
+                {
+                    query += " WHERE Categoria = @Categoria";
+                }
+
                 SqlCommand cmd = new SqlCommand(query, conexion);
+
+                if (!string.IsNullOrEmpty(categoria))
+                {
+                    cmd.Parameters.AddWithValue("@Categoria", categoria);
+                }
+
                 conexion.Open();
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -45,9 +58,10 @@ namespace Skiniverse.Controllers
                 }
             }
 
+            ViewData["CategoriaSeleccionada"] = categoria;
             return View(listaProductos);
-     
         }
+
         // GET: /Productos/TestPiel (Muestra la encuesta)
         public IActionResult TestPiel()
         {

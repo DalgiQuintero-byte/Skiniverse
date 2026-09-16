@@ -60,12 +60,15 @@
     /* Tarjetas de Categorías en Tonos Azules y Fríos */
     .category-card {
         border-radius: 16px; /* Formato más rectangular suave */
-        padding: 24px 15px 15px 15px;
+        padding: 24px 15px 20px 15px;
         text-align: center;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         text-decoration: none !important;
         color: #0D1B2A;
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
         height: 100%;
         border: 1px solid rgba(2, 128, 144, 0.08);
     }
@@ -82,6 +85,7 @@
         align-items: center;
         justify-content: center;
         margin-bottom: 12px;
+        width: 100%;
     }
 
         .category-img-wrapper img {
@@ -90,6 +94,23 @@
             object-fit: contain;
             filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.08));
         }
+
+    .btn-cat-action {
+        background-color: #1B3C73;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 0.85rem;
+        border-radius: 50px;
+        padding: 8px 20px;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+        border: none;
+    }
+
+    .category-card:hover .btn-cat-action {
+        background-color: #028090;
+        color: #ffffff;
+    }
 
     /* Variaciones de Fondo Azul en Categorías */
     .bg-cat-azul-1 {
@@ -131,8 +152,9 @@
                         <p class="text-secondary fs-5 mb-4">
                             Explora productos formulados para devolver el balance, la luz y la textura natural de tu rostro. Una experiencia de skincare hecha a tu medida
                         </p>
-                        <a asp-controller="Productos" asp-action="Catalogo" class="btn btn-skin-blue">
-                            Escuentra tu rutina ideal ✨  <i class="bi bi-arrow-right ms-2"></i>
+                        <!-- BOTÓN PARA REDIRIGIR A LA VISTA DE RUTINAS (QUIZ) -->
+                        <a asp-controller="Quiz" asp-action="Index" class="btn btn-skin-blue">
+                            Encuentra tu rutina ideal ✨ <i class="bi bi-arrow-right ms-2"></i>
                         </a>
                     </div>
                     <div class="col-lg-5 text-center mt-4 mt-lg-0">
@@ -143,32 +165,7 @@
                     </div>
                 </div>
             </div>
-        </div>.............
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ......................................
-
+        </div>
         <!-- Diapositiva 2 -->
         <div class="carousel-item">
             <div class="hero-banner-slide-2">
@@ -218,41 +215,53 @@
 <div class="row g-4 mb-5">
     <!-- Limpiadores -->
     <div class="col-6 col-md-3">
-        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-azul-1">
+        <div class="category-card bg-cat-azul-1">
             <div class="category-img-wrapper">
                 <img src="https://cocopinkstore.com/cdn/shop/files/espumadolcebella-1.jpg?v=1757108578" alt="Limpiadores En Espuma" />
             </div>
             <h6 class="fw-bold mb-0" style="color: #1B3C73;">Limpiadores En Espuma</h6>
-        </a>
+            <a asp-controller="Productos" asp-action="Catalogo" asp-route-categoria="Limpiadores" class="btn btn-cat-action">
+                Ver catálogo &rarr;
+            </a>
+        </div>
     </div>
 
     <!-- Tónicos -->
     <div class="col-6 col-md-3">
-        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-azul-2">
+        <div class="category-card bg-cat-azul-2">
             <div class="category-img-wrapper">
                 <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop" alt="Tónicos" />
             </div>
             <h6 class="fw-bold mb-0" style="color: #1B3C73;">Tónicos</h6>
-        </a>
+            <a asp-controller="Productos" asp-action="Catalogo" asp-route-categoria="Tónicos" class="btn btn-cat-action">
+                Ver catálogo &rarr;
+            </a>
+        </div>
     </div>
 
     <!-- Esencias -->
     <div class="col-6 col-md-3">
-        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-azul-3">
+        <div class="category-card bg-cat-azul-3">
             <div class="category-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1608248597261-1772f7e71360?q=80&w=400&auto=format&fit=crop" alt="Esencias" />
+                <img src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1741728845-uriage-67d0ac29b6b2e.png?crop=1xw:0.9949494949494949xh;center,top&resize=980:*" alt="Esencias" />
             </div>
             <h6 class="fw-bold mb-0" style="color: #1B3C73;">Esencias</h6>
-        </a>
+            <a asp-controller="Productos" asp-action="Catalogo" asp-route-categoria="Esencias" class="btn btn-cat-action">
+                Ver catálogo &rarr;
+            </a>
+        </div>
     </div>
 
     <!-- Sérums -->
     <div class="col-6 col-md-3">
-        <a asp-controller="Productos" asp-action="Catalogo" class="category-card bg-cat-azul-4">
+        <div class="category-card bg-cat-azul-4">
             <div class="category-img-wrapper">
                 <img src="https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=400&auto=format&fit=crop" alt="Sérums" />
             </div>
             <h6 class="fw-bold mb-0" style="color: #1B3C73;">Sérums</h6>
-        </a>
+            <a asp-controller="Productos" asp-action="Catalogo" asp-route-categoria="Sérums" class="btn btn-cat-action">
+                Ver catálogo &rarr;
+            </a>
+        </div>
     </div>
 </div>
