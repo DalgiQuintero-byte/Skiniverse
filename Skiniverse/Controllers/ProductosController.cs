@@ -22,25 +22,16 @@ namespace Skiniverse.Controllers
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos";
-                SqlCommand cmd = new SqlCommand(query, conexion);
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto";
                 conexion.Open();
+
+                SqlCommand cmd = new SqlCommand(query, conexion);
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        listaProductos.Add(new Producto
-                        {
-                            IdProducto = Convert.ToInt32(reader["IdProducto"]),
-                            NombreProducto = reader["NombreProducto"].ToString() ?? "",
-                            Categoria = reader["Categoria"].ToString() ?? "",
-                            TipoPielRecomendado = reader["TipoPielRecomendado"].ToString() ?? "",
-                            IngredientesActivos = reader["IngredientesActivos"].ToString() ?? "",
-                            PrecioRegular = Convert.ToDecimal(reader["PrecioRegular"]),
-                            StockActual = Convert.ToInt32(reader["StockActual"]),
-                            ImagenUrl = reader["ImagenUrl"] != DBNull.Value ? reader["ImagenUrl"].ToString() : ""
-                        });
+                        listaProductos.Add(MapearProducto(reader));
                     }
                 }
             }
@@ -56,27 +47,17 @@ namespace Skiniverse.Controllers
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos WHERE IdProducto = @Id";
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto WHERE IdProducto = @Id";
+                conexion.Open();
+
                 SqlCommand cmd = new SqlCommand(query, conexion);
                 cmd.Parameters.AddWithValue("@Id", id);
-
-                conexion.Open();
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        producto = new Producto
-                        {
-                            IdProducto = Convert.ToInt32(reader["IdProducto"]),
-                            NombreProducto = reader["NombreProducto"].ToString() ?? "",
-                            Categoria = reader["Categoria"].ToString() ?? "",
-                            TipoPielRecomendado = reader["TipoPielRecomendado"].ToString() ?? "",
-                            IngredientesActivos = reader["IngredientesActivos"].ToString() ?? "",
-                            PrecioRegular = Convert.ToDecimal(reader["PrecioRegular"]),
-                            StockActual = Convert.ToInt32(reader["StockActual"]),
-                            ImagenUrl = reader["ImagenUrl"] != DBNull.Value ? reader["ImagenUrl"].ToString() : ""
-                        };
+                        producto = MapearProducto(reader);
                     }
                 }
             }
@@ -97,32 +78,23 @@ namespace Skiniverse.Controllers
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos";
-                SqlCommand cmd = new SqlCommand(query, conexion);
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto";
+
                 conexion.Open();
+                SqlCommand cmd = new SqlCommand(query, conexion);
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        listaProductos.Add(new Producto
-                        {
-                            IdProducto = Convert.ToInt32(reader["IdProducto"]),
-                            NombreProducto = reader["NombreProducto"].ToString() ?? "",
-                            Categoria = reader["Categoria"].ToString() ?? "",
-                            TipoPielRecomendado = reader["TipoPielRecomendado"].ToString() ?? "",
-                            IngredientesActivos = reader["IngredientesActivos"].ToString() ?? "",
-                            PrecioRegular = Convert.ToDecimal(reader["PrecioRegular"]),
-                            StockActual = Convert.ToInt32(reader["StockActual"]),
-                            ImagenUrl = reader["ImagenUrl"] != DBNull.Value ? reader["ImagenUrl"].ToString() : ""
-                        });
+                        listaProductos.Add(MapearProducto(reader));
                     }
                 }
             }
 
             return View(listaProductos);
-     
         }
+
         // GET: /Productos/TestPiel (Muestra la encuesta)
         public IActionResult TestPiel()
         {
@@ -153,11 +125,12 @@ namespace Skiniverse.Controllers
 
                 using (SqlConnection conexion = new SqlConnection(conexionString))
                 {
-                    string query = @"INSERT INTO Productos 
+                    string query = @"INSERT INTO Producto 
                                     (NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl) 
                                     VALUES 
                                     (@NombreProducto, @Categoria, @TipoPielRecomendado, @IngredientesActivos, @PrecioRegular, @StockActual, @ImagenUrl)";
 
+                    conexion.Open();
                     SqlCommand cmd = new SqlCommand(query, conexion);
 
                     cmd.Parameters.AddWithValue("@NombreProducto", producto.NombreProducto);
@@ -168,7 +141,6 @@ namespace Skiniverse.Controllers
                     cmd.Parameters.AddWithValue("@StockActual", producto.StockActual);
                     cmd.Parameters.AddWithValue("@ImagenUrl", (object)producto.ImagenUrl ?? DBNull.Value);
 
-                    conexion.Open();
                     cmd.ExecuteNonQuery();
                 }
 
@@ -186,26 +158,17 @@ namespace Skiniverse.Controllers
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos WHERE IdProducto = @Id";
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto WHERE IdProducto = @Id";
+                conexion.Open();
+
                 SqlCommand cmd = new SqlCommand(query, conexion);
                 cmd.Parameters.AddWithValue("@Id", id);
 
-                conexion.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        producto = new Producto
-                        {
-                            IdProducto = Convert.ToInt32(reader["IdProducto"]),
-                            NombreProducto = reader["NombreProducto"].ToString() ?? "",
-                            Categoria = reader["Categoria"].ToString() ?? "",
-                            TipoPielRecomendado = reader["TipoPielRecomendado"].ToString() ?? "",
-                            IngredientesActivos = reader["IngredientesActivos"].ToString() ?? "",
-                            PrecioRegular = Convert.ToDecimal(reader["PrecioRegular"]),
-                            StockActual = Convert.ToInt32(reader["StockActual"]),
-                            ImagenUrl = reader["ImagenUrl"] != DBNull.Value ? reader["ImagenUrl"].ToString() : ""
-                        };
+                        producto = MapearProducto(reader);
                     }
                 }
             }
@@ -225,7 +188,7 @@ namespace Skiniverse.Controllers
 
                 using (SqlConnection conexion = new SqlConnection(conexionString))
                 {
-                    string query = @"UPDATE Productos 
+                    string query = @"UPDATE Producto 
                                     SET NombreProducto = @NombreProducto, 
                                         Categoria = @Categoria, 
                                         TipoPielRecomendado = @TipoPielRecomendado, 
@@ -235,7 +198,9 @@ namespace Skiniverse.Controllers
                                         ImagenUrl = @ImagenUrl 
                                     WHERE IdProducto = @IdProducto";
 
+                    conexion.Open();
                     SqlCommand cmd = new SqlCommand(query, conexion);
+
                     cmd.Parameters.AddWithValue("@IdProducto", producto.IdProducto);
                     cmd.Parameters.AddWithValue("@NombreProducto", producto.NombreProducto);
                     cmd.Parameters.AddWithValue("@Categoria", producto.Categoria);
@@ -245,7 +210,6 @@ namespace Skiniverse.Controllers
                     cmd.Parameters.AddWithValue("@StockActual", producto.StockActual);
                     cmd.Parameters.AddWithValue("@ImagenUrl", (object)producto.ImagenUrl ?? DBNull.Value);
 
-                    conexion.Open();
                     cmd.ExecuteNonQuery();
                 }
 
@@ -262,15 +226,32 @@ namespace Skiniverse.Controllers
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "DELETE FROM Productos WHERE IdProducto = @Id";
+                string query = "DELETE FROM Producto WHERE IdProducto = @Id";
+                conexion.Open();
+
                 SqlCommand cmd = new SqlCommand(query, conexion);
                 cmd.Parameters.AddWithValue("@Id", id);
 
-                conexion.Open();
                 cmd.ExecuteNonQuery();
             }
 
             return RedirectToAction(nameof(Admin));
+        }
+
+        // Método auxiliar privado para evitar la duplicación de código de lectura de datos
+        private Producto MapearProducto(SqlDataReader reader)
+        {
+            return new Producto
+            {
+                IdProducto = Convert.ToInt32(reader["IdProducto"]),
+                NombreProducto = reader["NombreProducto"].ToString() ?? "",
+                Categoria = reader["Categoria"].ToString() ?? "",
+                TipoPielRecomendado = reader["TipoPielRecomendado"].ToString() ?? "",
+                IngredientesActivos = reader["IngredientesActivos"].ToString() ?? "",
+                PrecioRegular = Convert.ToDecimal(reader["PrecioRegular"]),
+                StockActual = Convert.ToInt32(reader["StockActual"]),
+                ImagenUrl = reader["ImagenUrl"] != DBNull.Value ? reader["ImagenUrl"].ToString() : ""
+            };
         }
     }
 }
