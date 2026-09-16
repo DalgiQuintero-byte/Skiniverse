@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Skiniverse.Models;
 using System.Data;
@@ -12,6 +12,42 @@ namespace Skiniverse.Controllers
         public ProductosController(IConfiguration configuration)
         {
             _configuration = configuration;
+        }
+
+        // GET: /Productos/Catalogo?categoria=Limpiadores
+        public IActionResult Catalogo(string? categoria)
+        {
+            List<Producto> listaProductos = new List<Producto>();
+            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+
+            using (SqlConnection conexion = new SqlConnection(conexionString))
+            {
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto";
+
+                if (!string.IsNullOrEmpty(categoria))
+                {
+                    query += " WHERE Categoria = @Categoria";
+                }
+
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand(query, conexion);
+
+                if (!string.IsNullOrEmpty(categoria))
+                {
+                    cmd.Parameters.AddWithValue("@Categoria", categoria);
+                }
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaProductos.Add(MapearProducto(reader));
+                    }
+                }
+            }
+
+            ViewData["CategoriaSeleccionada"] = categoria;
+            return View(listaProductos);
         }
 
         // GET: /Productos/Admin (Vista de gestión para administrador)
@@ -70,45 +106,20 @@ namespace Skiniverse.Controllers
             return View(producto);
         }
 
-        // GET: /Productos/Catalogo
-        public IActionResult Catalogo()
-        {
-            List<Producto> listaProductos = new List<Producto>();
-            string conexionString = _configuration.GetConnectionString("ConexionSQL");
-
-            using (SqlConnection conexion = new SqlConnection(conexionString))
-            {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto";
-
-                conexion.Open();
-                SqlCommand cmd = new SqlCommand(query, conexion);
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        listaProductos.Add(MapearProducto(reader));
-                    }
-                }
-            }
-
-            return View(listaProductos);
-        }
-
         // GET: /Productos/TestPiel (Muestra la encuesta)
         public IActionResult TestPiel()
         {
             return View();
         }
 
-        // POST: /Productos/ResultadoTest (Recibe el test y muestra los dos botones de elección)
+        // POST: /Productos/ResultadoTest
         [HttpPost]
         public IActionResult ResultadoTest(EncuestaModel modelo)
         {
             return View();
         }
 
-        // GET: /Productos/Crear (Muestra el formulario)
+        // GET: /Productos/Crear
         public IActionResult Crear()
         {
             return View();
@@ -150,7 +161,7 @@ namespace Skiniverse.Controllers
             return View(producto);
         }
 
-        // GET: /Productos/Editar/5 (Carga datos para editar)
+        // GET: /Productos/Editar/5
         public IActionResult Editar(int id)
         {
             Producto producto = null;
@@ -177,7 +188,7 @@ namespace Skiniverse.Controllers
             return View(producto);
         }
 
-        // POST: /Productos/Editar/5 (Actualiza el producto en SQL Server)
+        // POST: /Productos/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(Producto producto)
@@ -219,7 +230,7 @@ namespace Skiniverse.Controllers
             return View(producto);
         }
 
-        // GET: /Productos/Eliminar/5 (Elimina directamente el producto)
+        // GET: /Productos/Eliminar/5
         public IActionResult Eliminar(int id)
         {
             string conexionString = _configuration.GetConnectionString("ConexionSQL");
@@ -238,7 +249,6 @@ namespace Skiniverse.Controllers
             return RedirectToAction(nameof(Admin));
         }
 
-        // Método auxiliar privado para evitar la duplicación de código de lectura de datos
         private Producto MapearProducto(SqlDataReader reader)
         {
             return new Producto
