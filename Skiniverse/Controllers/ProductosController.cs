@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Skiniverse.Models;
@@ -14,15 +15,19 @@ namespace Skiniverse.Controllers
             _configuration = configuration;
         }
 
-        // GET: /Productos/Catalogo?categoria=Limpiadores
+        // GET: /Producto/Catalogo?categoria=Limpiadores
         public IActionResult Catalogo(string? categoria)
         {
-            List<Producto> listaProductos = new List<Producto>();
-            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+            List<Producto> listaProducto = new List<Producto>();
+            string? conexionString = _configuration.GetConnectionString("ConexionSQL");
+            if (string.IsNullOrEmpty(conexionString))
+            {
+                throw new InvalidOperationException("La cadena de conexión 'ConexionSQL' no está configurada.");
+            }
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto";
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos";
 
                 if (!string.IsNullOrEmpty(categoria))
                 {
@@ -41,24 +46,28 @@ namespace Skiniverse.Controllers
                 {
                     while (reader.Read())
                     {
-                        listaProductos.Add(MapearProducto(reader));
+                        listaProducto.Add(MapearProducto(reader));
                     }
                 }
             }
 
             ViewData["CategoriaSeleccionada"] = categoria;
-            return View(listaProductos);
+            return View(listaProducto);
         }
 
-        // GET: /Productos/Admin (Vista de gestión para administrador)
+        // GET: /Producto/Admin (Vista de gestión para administrador)
         public IActionResult Admin()
         {
-            List<Producto> listaProductos = new List<Producto>();
-            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+            List<Producto> listaProducto = new List<Producto>();
+            string? conexionString = _configuration.GetConnectionString("ConexionSQL");
+            if (string.IsNullOrEmpty(conexionString))
+            {
+                throw new InvalidOperationException("La cadena de conexión 'ConexionSQL' no está configurada.");
+            }
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto";
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos";
                 conexion.Open();
 
                 SqlCommand cmd = new SqlCommand(query, conexion);
@@ -67,23 +76,27 @@ namespace Skiniverse.Controllers
                 {
                     while (reader.Read())
                     {
-                        listaProductos.Add(MapearProducto(reader));
+                        listaProducto.Add(MapearProducto(reader));
                     }
                 }
             }
 
-            return View(listaProductos);
+            return View(listaProducto);
         }
 
-        // GET: /Productos/Detalles/5
+        // GET: /Producto/Detalles/5
         public IActionResult Detalles(int id)
         {
-            Producto producto = null;
-            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+            Producto? Producto = null;
+            string? conexionString = _configuration.GetConnectionString("ConexionSQL");
+            if (string.IsNullOrEmpty(conexionString))
+            {
+                throw new InvalidOperationException("La cadena de conexión 'ConexionSQL' no está configurada.");
+            }
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto WHERE IdProducto = @Id";
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos WHERE IdProducto = @Id";
                 conexion.Open();
 
                 SqlCommand cmd = new SqlCommand(query, conexion);
@@ -93,50 +106,54 @@ namespace Skiniverse.Controllers
                 {
                     if (reader.Read())
                     {
-                        producto = MapearProducto(reader);
+                        Producto = MapearProducto(reader);
                     }
                 }
             }
 
-            if (producto == null)
+            if (Producto == null)
             {
                 return NotFound();
             }
 
-            return View(producto);
+            return View(Producto);
         }
 
-        // GET: /Productos/TestPiel (Muestra la encuesta)
+        // GET: /Producto/TestPiel (Muestra la encuesta)
         public IActionResult TestPiel()
         {
             return View();
         }
 
-        // POST: /Productos/ResultadoTest
+        // POST: /Producto/ResultadoTest
         [HttpPost]
         public IActionResult ResultadoTest(EncuestaModel modelo)
         {
             return View();
         }
 
-        // GET: /Productos/Crear
+        // GET: /Producto/Crear
         public IActionResult Crear()
         {
             return View();
         }
 
-        // POST: /Productos/Crear (Guarda el producto en SQL Server)
+        // POST: /Producto/Crear (Guarda el Producto en SQL Server)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Crear(Producto producto)
+        public IActionResult Crear(Producto Producto)
         {
             if (ModelState.IsValid)
             {
-                string conexionString = _configuration.GetConnectionString("ConexionSQL");
+                string? conexionString = _configuration.GetConnectionString("ConexionSQL");
+                if (string.IsNullOrEmpty(conexionString))
+                {
+                    throw new InvalidOperationException("La cadena de conexión 'ConexionSQL' no está configurada.");
+                }
 
                 using (SqlConnection conexion = new SqlConnection(conexionString))
                 {
-                    string query = @"INSERT INTO Producto 
+                    string query = @"INSERT INTO Productos
                                     (NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl) 
                                     VALUES 
                                     (@NombreProducto, @Categoria, @TipoPielRecomendado, @IngredientesActivos, @PrecioRegular, @StockActual, @ImagenUrl)";
@@ -144,13 +161,13 @@ namespace Skiniverse.Controllers
                     conexion.Open();
                     SqlCommand cmd = new SqlCommand(query, conexion);
 
-                    cmd.Parameters.AddWithValue("@NombreProducto", producto.NombreProducto);
-                    cmd.Parameters.AddWithValue("@Categoria", producto.Categoria);
-                    cmd.Parameters.AddWithValue("@TipoPielRecomendado", producto.TipoPielRecomendado);
-                    cmd.Parameters.AddWithValue("@IngredientesActivos", producto.IngredientesActivos);
-                    cmd.Parameters.AddWithValue("@PrecioRegular", producto.PrecioRegular);
-                    cmd.Parameters.AddWithValue("@StockActual", producto.StockActual);
-                    cmd.Parameters.AddWithValue("@ImagenUrl", (object)producto.ImagenUrl ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@NombreProducto", Producto.NombreProducto);
+                    cmd.Parameters.AddWithValue("@Categoria", Producto.Categoria);
+                    cmd.Parameters.AddWithValue("@TipoPielRecomendado", Producto.TipoPielRecomendado);
+                    cmd.Parameters.AddWithValue("@IngredientesActivos", Producto.IngredientesActivos);
+                    cmd.Parameters.AddWithValue("@PrecioRegular", Producto.PrecioRegular);
+                    cmd.Parameters.AddWithValue("@StockActual", Producto.StockActual);
+                    cmd.Parameters.AddWithValue("@ImagenUrl", Producto.ImagenUrl as object ?? DBNull.Value);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -158,18 +175,22 @@ namespace Skiniverse.Controllers
                 return RedirectToAction(nameof(Admin));
             }
 
-            return View(producto);
+            return View(Producto);
         }
 
-        // GET: /Productos/Editar/5
+        // GET: /Producto/Editar/5
         public IActionResult Editar(int id)
         {
-            Producto producto = null;
-            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+            Producto? Producto = null;
+            string? conexionString = _configuration.GetConnectionString("ConexionSQL");
+            if (string.IsNullOrEmpty(conexionString))
+            {
+                throw new InvalidOperationException("La cadena de conexión 'ConexionSQL' no está configurada.");
+            }
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Producto WHERE IdProducto = @Id";
+                string query = "SELECT IdProducto, NombreProducto, Categoria, TipoPielRecomendado, IngredientesActivos, PrecioRegular, StockActual, ImagenUrl FROM Productos WHERE IdProducto = @Id";
                 conexion.Open();
 
                 SqlCommand cmd = new SqlCommand(query, conexion);
@@ -179,27 +200,31 @@ namespace Skiniverse.Controllers
                 {
                     if (reader.Read())
                     {
-                        producto = MapearProducto(reader);
+                        Producto = MapearProducto(reader);
                     }
                 }
             }
 
-            if (producto == null) return NotFound();
-            return View(producto);
+            if (Producto == null) return NotFound();
+            return View(Producto);
         }
 
-        // POST: /Productos/Editar/5
+        // POST: /Producto/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Editar(Producto producto)
+        public IActionResult Editar(Producto Productos)
         {
             if (ModelState.IsValid)
             {
-                string conexionString = _configuration.GetConnectionString("ConexionSQL");
+                string? conexionString = _configuration.GetConnectionString("ConexionSQL");
+                if (string.IsNullOrEmpty(conexionString))
+                {
+                    throw new InvalidOperationException("La cadena de conexión 'ConexionSQL' no está configurada.");
+                }
 
                 using (SqlConnection conexion = new SqlConnection(conexionString))
                 {
-                    string query = @"UPDATE Producto 
+                    string query = @"UPDATE Productos 
                                     SET NombreProducto = @NombreProducto, 
                                         Categoria = @Categoria, 
                                         TipoPielRecomendado = @TipoPielRecomendado, 
@@ -212,14 +237,14 @@ namespace Skiniverse.Controllers
                     conexion.Open();
                     SqlCommand cmd = new SqlCommand(query, conexion);
 
-                    cmd.Parameters.AddWithValue("@IdProducto", producto.IdProducto);
-                    cmd.Parameters.AddWithValue("@NombreProducto", producto.NombreProducto);
-                    cmd.Parameters.AddWithValue("@Categoria", producto.Categoria);
-                    cmd.Parameters.AddWithValue("@TipoPielRecomendado", producto.TipoPielRecomendado);
-                    cmd.Parameters.AddWithValue("@IngredientesActivos", producto.IngredientesActivos);
-                    cmd.Parameters.AddWithValue("@PrecioRegular", producto.PrecioRegular);
-                    cmd.Parameters.AddWithValue("@StockActual", producto.StockActual);
-                    cmd.Parameters.AddWithValue("@ImagenUrl", (object)producto.ImagenUrl ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@IdProducto", Productos.IdProducto);
+                    cmd.Parameters.AddWithValue("@NombreProducto", Productos.NombreProducto);
+                    cmd.Parameters.AddWithValue("@Categoria", Productos.Categoria);
+                    cmd.Parameters.AddWithValue("@TipoPielRecomendado", Productos.TipoPielRecomendado);
+                    cmd.Parameters.AddWithValue("@IngredientesActivos", Productos.IngredientesActivos);
+                    cmd.Parameters.AddWithValue("@PrecioRegular", Productos.PrecioRegular);
+                    cmd.Parameters.AddWithValue("@StockActual", Productos.StockActual);
+                    cmd.Parameters.AddWithValue("@ImagenUrl", Productos.ImagenUrl as object ?? DBNull.Value);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -227,17 +252,21 @@ namespace Skiniverse.Controllers
                 return RedirectToAction(nameof(Admin));
             }
 
-            return View(producto);
+            return View(Productos);
         }
 
-        // GET: /Productos/Eliminar/5
+        // GET: /Producto/Eliminar/5
         public IActionResult Eliminar(int id)
         {
-            string conexionString = _configuration.GetConnectionString("ConexionSQL");
+            string? conexionString = _configuration.GetConnectionString("ConexionSQL");
+            if (string.IsNullOrEmpty(conexionString))
+            {
+                throw new InvalidOperationException("La cadena de conexión 'ConexionSQL' no está configurada.");
+            }
 
             using (SqlConnection conexion = new SqlConnection(conexionString))
             {
-                string query = "DELETE FROM Producto WHERE IdProducto = @Id";
+                string query = "DELETE FROM Productos WHERE IdProducto = @Id";
                 conexion.Open();
 
                 SqlCommand cmd = new SqlCommand(query, conexion);
@@ -262,6 +291,14 @@ namespace Skiniverse.Controllers
                 StockActual = Convert.ToInt32(reader["StockActual"]),
                 ImagenUrl = reader["ImagenUrl"] != DBNull.Value ? reader["ImagenUrl"].ToString() : ""
             };
+
+        }
+        [HttpPost]
+        [Authorize] // Si no ha iniciado sesión, ASP.NET Core lo enviará a /Account/Login automáticamente
+        public IActionResult AgregarAlCarrito(int id)
+        {
+            // Lógica para guardar el producto en el carrito del usuario
+            return RedirectToAction("Index", "Home");
         }
     }
 }

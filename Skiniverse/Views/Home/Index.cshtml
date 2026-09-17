@@ -5,7 +5,7 @@
 <style>
     /* Estilos personalizados en paleta de AZULES (Azul Oscuro, Azul Medio y Azul Claro) */
     .hero-carousel-container {
-        border-radius: 16px; /* Forma más grande y rectangular */
+        border-radius: 16px;
         overflow: hidden;
         box-shadow: 0 10px 25px rgba(27, 60, 115, 0.08);
         background-color: #ffffff;
@@ -113,10 +113,34 @@
     }
 
     /* Variaciones de Fondo Azul en Categorías */
-    .bg-cat-azul-1 { background-color: #EBF4F6; }
-    .bg-cat-azul-2 { background-color: #E1F1F5; }
-    .bg-cat-azul-3 { background-color: #D6EDF3; }
-    .bg-cat-azul-4 { background-color: #CCE8F0; }
+    .bg-cat-azul-1 {
+        background-color: #EBF4F6;
+    }
+
+    .bg-cat-azul-2 {
+        background-color: #E1F1F5;
+    }
+
+    .bg-cat-azul-3 {
+        background-color: #D6EDF3;
+    }
+
+    .bg-cat-azul-4 {
+        background-color: #CCE8F0;
+    }
+
+    /* Tarjetas de Productos */
+    .product-card {
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        background-color: #ffffff;
+    }
+
+        .product-card:hover {
+            box-shadow: 0 10px 20px rgba(27, 60, 115, 0.1);
+            transform: translateY(-4px);
+        }
 </style>
 
 <!-- 1. Carrusel de Banners Rectangular -->
@@ -253,3 +277,4 @@
         </div>
     </div>
 </div>
+
